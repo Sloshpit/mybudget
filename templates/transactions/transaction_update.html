@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <h1 class="mt-2">Update this Transaction</h1>
+  <div id ="nobudget"></div>        
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="mt-2"></div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+ {% block javascript %}
+  	<script>
+  $(document).ready(function(){
+
+    the_value = $('#id_amount').val();
+    if (the_value <0)
+    {
+      the_value=the_value*-1;
+      $('#id_amount').val(the_value);
+    }
+
+  });
+      $('#id_account_name').change(function(){
+       var account = $(this).val();
+       $.ajax({
+         url: 'ajax/get_account',
+         data:{
+           'account': account
+         },
+         dataType:'json',
+         success: function (data){
+         $('#id_trans_date').data("DateTimePicker").minDate(data.date);
+
+         }
+       });    
+       });
+       $('#id_trans_date, #category').on('dp.change', function (event) {
+      console.log ('change')
+       var category = $('#id_category').find('option:selected').text();
+       var date = $('#id_trans_date').val();
+       $.ajax({
+         url: 'ajax/category_budget_check',
+         data:{
+           'category': category,
+           'date': date
+         },
+         dataType:'json',
+         success: function (data){  
+
+        //if you get no budgetracker value back send an error message
+      //   var averagespend =  (data['category_average_spend']['monthly_spend__avg']);
+      //   var averagebudget = (data['category_average_budget']['budget_amount__avg'])
+      //   var avgspend = averagespend.toFixed(2);    
+      //   var avgbudget = averagebudget.toFixed(2);   
+         var budget_exist = (data['budget_exist']);
+        console.log ('budget exists: '+ budget_exist)
+         if (budget_exist == 'false'){
+
+        $('#nobudget').append('<div class="alert alert-danger">' + 'There is no budget defined for this category.  Create one first!</div>');
+        $("form").submit("disabled", true);
+
+       //  $('#average_budget').text('Over the last 3 months you have spent $' + avgspend + ' on this category.' + ' Your avarage budget for this category is $' +avgbudget )
+         }
+         }
+       });           
+        });  
+   
+  </script>
+
+{% endblock %} 
+{% endblock %}

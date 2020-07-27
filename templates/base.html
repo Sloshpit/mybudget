@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %} 
+{# Embed Bootstrap JS+jQuery #}
+{{ form.media }}            {# Adds date-picker required JS and CSS #}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
+
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+  <body class="bg-light">
+  <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <a class="navbar-brand text-white" href="#"> <span class="oi oi-infinity"></span><strong>&nbsp;Personal Budgeting</a></strong>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav small">
+
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="/budgettracker" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Budget Tracking
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/budgettracker">Monthly Budget</a>
+          <a class="dropdown-item" href="/budgettracker/add">Add a Budget</a>
+        </div>
+      </li>
+          <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Accounts
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/accounts/">Account Balances</a>
+          <a class="dropdown-item" href="/accounthistory/accountfilter">Account Balance Details</a>
+          <a class="dropdown-item" href="/accounts/add">Add an Account</a>
+  
+        </div>
+      </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Transactions
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/transactions/">Transactions</a>
+          <a class="dropdown-item" href="/transactions/add">Add a Transaction</a>
+        </div>
+      </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Transfers
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/transfers/">Transfers</a>
+          <a class="dropdown-item" href="/transfers/add">Add a Transfer</a>
+        </div>
+      </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categories
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/categories/">Categories</a>
+          <a class="dropdown-item" href="/categories/add">Add a Category</a>
+        </div>
+      </li>
+
+    </ul>
+  <ul class="nav nav-bar ml-auto justify-content-st">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <strong><span class="oi oi-dollar"></span> {{request.user.username}}</strong>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        
+        {% if request.user.is_authenticated %}
+        <a class="dropdown-item" href="{%url 'logout'%}">Logout</a>
+        {% else %}
+        <a class="dropdown-item" href="{%url 'login'%}">Login</a>
+        {% endif %}
+        
+      </div>
+    </li>
+  </ul>
+</nav>
+</header>
+  <div class="container">
+          {% block content %}
+          {% endblock %}
+  </div>
+  <footer class="footer">
+    <p class="text-center text-white bg-dark">Personal budgeting that rocks!</p>
+
+  </footer>
+  </body>
+
+</html>
